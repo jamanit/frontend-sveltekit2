@@ -44,7 +44,17 @@ function fn() {
 /*********************/
 /* Toggle Menu */
 /*********************/
-function toggleMenu() {
+// function toggleMenu() {
+//     document.getElementById('isToggle').classList.toggle('open');
+//     var isOpen = document.getElementById('navigation')
+//     if (isOpen.style.display === "block") {
+//         isOpen.style.display = "none";
+//     } else {
+//         isOpen.style.display = "block";
+//     }
+// };
+
+document.getElementById('isToggle').onclick = function () {
     document.getElementById('isToggle').classList.toggle('open');
     var isOpen = document.getElementById('navigation')
     if (isOpen.style.display === "block") {

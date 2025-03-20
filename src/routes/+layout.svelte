@@ -2,7 +2,7 @@
 <script lang="ts">
 	// import '../app.css';
 	import { onMount } from 'svelte';
-	// import Navbar from '$lib/components/Navbar.svelte';
+	import Navbar from '$lib/components/Navbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 
 	let { children } = $props();
@@ -27,10 +27,6 @@
 			document.body.appendChild(scriptApp);
 		};
 		document.body.appendChild(scriptFeatherIcons);
-
-		const scriptTailwindCSS = document.createElement('script');
-		scriptTailwindCSS.src = baseURL + '/assets/tailwindcss/cdn-tailwindcss-3.3.3.js';
-		document.body.appendChild(scriptTailwindCSS);
 	});
 
 	onMount(() => {
@@ -62,6 +58,7 @@
 		rel="stylesheet"
 	/>
 	<link rel="stylesheet" href="{baseURL}/assets/hoxia-v1/css/tailwind.css" />
+	<script src={baseURL + '/assets/tailwindcss/cdn-tailwindcss-3.3.3.js'}></script>
 </svelte:head>
 
 <!-- <div id="preloader">
@@ -81,7 +78,7 @@
 	</div>
 </div> -->
 
-<!-- <Navbar /> -->
+<Navbar />
 
 {@render children()}
 
