@@ -39,7 +39,13 @@
 //     activateMenu();
 // } 
 
-activateMenu();
+const preloader = document.getElementById('preloader');
+if (preloader) {
+    setTimeout(() => {
+        preloader.style.visibility = 'hidden';
+        preloader.style.opacity = '0';
+    }, 350);
+}
 
 //Menu
 /*********************/
@@ -142,6 +148,41 @@ function activateMenu() {
         }
     }
 }
+
+activateMenu();
+
+function removeActiveClass() {
+    var activeItems = document.querySelectorAll('.active');
+    activeItems.forEach(function (item) {
+        item.classList.remove('active');
+    });
+}
+
+
+function removeActiveClass() {
+    var activeItems = document.querySelectorAll('.active'); // Mengambil semua elemen dengan kelas 'active'
+    activeItems.forEach(function (item) {
+        item.classList.remove('active'); // Menghapus kelas 'active' dari setiap elemen
+    });
+}
+
+// Panggil fungsi untuk menghapus kelas aktif sebelum mengaktifkan menu yang baru
+window.addEventListener('popstate', function () {
+    removeActiveClass(); // Hapus kelas aktif yang lama
+    activateMenu(); // Aktifkan menu baru
+});
+
+// Alternatif: Deteksi klik pada elemen yang menyebabkan perubahan URL
+document.addEventListener('click', function (event) {
+    var target = event.target;
+    if (target.tagName === 'A' && target.href && target.href.startsWith(window.location.origin)) {
+        setTimeout(() => {
+            removeActiveClass(); // Hapus kelas aktif yang lama
+            activateMenu(); // Aktifkan menu baru
+        }, 100);
+    }
+});
+
 /*********************/
 /*  Clickable manu   */
 /*********************/

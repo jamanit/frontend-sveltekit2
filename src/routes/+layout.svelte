@@ -27,14 +27,6 @@
 				await loadScript(`${baseURL}/assets/hoxia-v1/js/plugins.init.js`);
 				await loadScript(`${baseURL}/assets/hoxia-v1/libs/feather-icons/feather.min.js`);
 				await loadScript(`${baseURL}/assets/hoxia-v1/js/app.js`);
-				const preloader = document.getElementById('preloader');
-				if (preloader) {
-					setTimeout(() => {
-						preloader.style.visibility = 'hidden';
-						preloader.style.opacity = '0';
-					}, 350);
-				}
-				// console.log('All scripts loaded successfully.');
 			} catch (error) {
 				console.error('Error loading scripts:', error);
 			}
