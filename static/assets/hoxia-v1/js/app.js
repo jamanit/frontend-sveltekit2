@@ -25,20 +25,21 @@
  *     12.  LTR & RTL Mode       *
  ================================*/
 
-window.addEventListener('load', fn, false)
+// window.addEventListener('load', fn, false)
+// // window.onload = function loader() {
+// function fn() {
+//     // Preloader
+//     if (document.getElementById('preloader')) {
+//         setTimeout(() => {
+//             document.getElementById('preloader').style.visibility = 'hidden';
+//             document.getElementById('preloader').style.opacity = '0';
+//         }, 350);
+//     }
+//     // Menus
+//     activateMenu();
+// } 
 
-//  window.onload = function loader() {
-function fn() {
-    // Preloader
-    if (document.getElementById('preloader')) {
-        setTimeout(() => {
-            document.getElementById('preloader').style.visibility = 'hidden';
-            document.getElementById('preloader').style.opacity = '0';
-        }, 350);
-    }
-    // Menus
-    activateMenu();
-}
+activateMenu();
 
 //Menu
 /*********************/
@@ -197,10 +198,15 @@ function scrollFunction() {
     }
 }
 
-function topFunction() {
+// function topFunction() {
+//     document.body.scrollTop = 0;
+//     document.documentElement.scrollTop = 0;
+// }
+
+document.getElementById('back-to-top').onclick = function () {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
-}
+};
 
 /*********************/
 /*  Active Sidebar   */

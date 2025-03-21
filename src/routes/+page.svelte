@@ -56,7 +56,7 @@
 							class="m-2 rounded-md bg-white p-4 text-center shadow dark:bg-slate-900 dark:shadow-gray-800"
 						>
 							<img
-								src="{baseURL}/assets/hoxia-v1/images/shop/biz.jpg"
+								src={`${baseURL}/assets/hoxia-v1/images/shop/biz.jpg`}
 								class="mx-auto mb-3 h-16 w-16 rounded-md shadow dark:shadow-gray-800"
 								alt=""
 							/>
@@ -73,7 +73,7 @@
 							class="m-2 rounded-md bg-white p-4 text-center shadow dark:bg-slate-900 dark:shadow-gray-800"
 						>
 							<img
-								src="{baseURL}/assets/hoxia-v1/images/shop/com.jpg"
+								src={`${baseURL}/assets/hoxia-v1/images/shop/com.jpg`}
 								class="mx-auto mb-3 h-16 w-16 rounded-md shadow dark:shadow-gray-800"
 								alt=""
 							/>
@@ -90,7 +90,7 @@
 							class="m-2 rounded-md bg-white p-4 text-center shadow dark:bg-slate-900 dark:shadow-gray-800"
 						>
 							<img
-								src="{baseURL}/assets/hoxia-v1/images/shop/me.jpg"
+								src={`${baseURL}/assets/hoxia-v1/images/shop/me.jpg`}
 								class="mx-auto mb-3 h-16 w-16 rounded-md shadow dark:shadow-gray-800"
 								alt=""
 							/>
@@ -107,7 +107,7 @@
 							class="m-2 rounded-md bg-white p-4 text-center shadow dark:bg-slate-900 dark:shadow-gray-800"
 						>
 							<img
-								src="{baseURL}/assets/hoxia-v1/images/shop/mobi.jpg"
+								src={`${baseURL}/assets/hoxia-v1/images/shop/mobi.jpg`}
 								class="mx-auto mb-3 h-16 w-16 rounded-md shadow dark:shadow-gray-800"
 								alt=""
 							/>
@@ -124,7 +124,7 @@
 							class="m-2 rounded-md bg-white p-4 text-center shadow dark:bg-slate-900 dark:shadow-gray-800"
 						>
 							<img
-								src="{baseURL}/assets/hoxia-v1/images/shop/net.jpg"
+								src={`${baseURL}/assets/hoxia-v1/images/shop/net.jpg`}
 								class="mx-auto mb-3 h-16 w-16 rounded-md shadow dark:shadow-gray-800"
 								alt=""
 							/>
@@ -141,7 +141,7 @@
 							class="m-2 rounded-md bg-white p-4 text-center shadow dark:bg-slate-900 dark:shadow-gray-800"
 						>
 							<img
-								src="{baseURL}/assets/hoxia-v1/images/shop/org.jpg"
+								src={`${baseURL}/assets/hoxia-v1/images/shop/org.jpg`}
 								class="mx-auto mb-3 h-16 w-16 rounded-md shadow dark:shadow-gray-800"
 								alt=""
 							/>
@@ -158,7 +158,7 @@
 							class="m-2 rounded-md bg-white p-4 text-center shadow dark:bg-slate-900 dark:shadow-gray-800"
 						>
 							<img
-								src="{baseURL}/assets/hoxia-v1/images/shop/tv.jpg"
+								src={`${baseURL}/assets/hoxia-v1/images/shop/tv.jpg`}
 								class="mx-auto mb-3 h-16 w-16 rounded-md shadow dark:shadow-gray-800"
 								alt=""
 							/>
@@ -175,7 +175,7 @@
 							class="m-2 rounded-md bg-white p-4 text-center shadow dark:bg-slate-900 dark:shadow-gray-800"
 						>
 							<img
-								src="{baseURL}/assets/hoxia-v1/images/shop/us.jpg"
+								src={`${baseURL}/assets/hoxia-v1/images/shop/us.jpg`}
 								class="mx-auto mb-3 h-16 w-16 rounded-md shadow dark:shadow-gray-800"
 								alt=""
 							/>
@@ -838,7 +838,7 @@
 			<div class="mt-10 grid grid-cols-1 items-center gap-[30px] md:grid-cols-2 lg:grid-cols-12">
 				<div class="order-1 md:order-2 lg:col-span-6">
 					<div class="lg:ms-8">
-						<img src="{baseURL}/assets/hoxia-v1/images/2.png" alt="" />
+						<img src={`${baseURL}/assets/hoxia-v1/images/2.png`} alt="" />
 					</div>
 				</div>
 				<div class="order-2 md:order-1 lg:col-span-6">
@@ -880,7 +880,7 @@
 			<div class="mt-10 grid grid-cols-1 items-center gap-[30px] md:grid-cols-2 lg:grid-cols-12">
 				<div class="lg:col-span-6">
 					<div class="lg:me-8">
-						<img src="{baseURL}/assets/hoxia-v1/images/3.png" alt="" />
+						<img src={`${baseURL}/assets/hoxia-v1/images/3.png`} alt="" />
 					</div>
 				</div>
 				<div class="lg:col-span-6">
