@@ -1,58 +1,48 @@
+<!-- src/lib/components/Pagination.svelte -->
 <script lang="ts">
-	export let currentPage: number;
-	export let totalPages: number;
-	export let changePage: (page: number) => void;
+	export let meta_links: MetaLink[] = [];
+	export let link_first: string | null = '';
+	export let link_last: string | null = '';
+	export let changePage: (url: string) => void;
 
-	function getPaginationNumbers() {
-		const pages = [];
-		const delta = 2;
-
-		pages.push(1);
-
-		for (
-			let i = Math.max(2, currentPage - delta);
-			i <= Math.min(totalPages - 1, currentPage + delta);
-			i++
-		) {
-			pages.push(i);
-		}
-
-		if (totalPages > 1) {
-			pages.push(totalPages);
-		}
-
-		return pages;
+	interface MetaLink {
+		url: string | null;
+		label: string;
+		active: boolean;
 	}
 </script>
 
-<button
-	on:click={() => changePage(currentPage - 1)}
-	disabled={currentPage === 1}
-	class="cursor-pointer rounded-lg bg-sky-600 px-4 py-1 text-sm text-white hover:bg-sky-700 disabled:cursor-not-allowed"
->
-	Previous
-</button>
-<div class="mx-4">
-	{#each getPaginationNumbers() as page, i}
-		{#if i > 0 && getPaginationNumbers()[i] !== getPaginationNumbers()[i - 1] + 1}
-			<span class="mx-1">...</span>
-		{/if}
-
+<div class="mt-8 flex items-center justify-center">
+	{#if link_first}
 		<button
-			on:click={() => changePage(page)}
-			class="cursor-pointer rounded-lg px-4 py-1 text-sm hover:bg-sky-700 {currentPage === page
-				? 'bg-sky-600 text-white'
-				: 'bg-gray-200 text-gray-600 hover:text-white'}"
-			disabled={currentPage === page}
+			class="inline-flex h-[40px] min-w-[40px] items-center justify-center rounded-s-lg border border-gray-100 p-2 text-slate-400 hover:border-sky-500 hover:bg-sky-500 hover:text-white dark:border-gray-800 dark:bg-slate-900 dark:hover:border-sky-500 dark:hover:bg-sky-500"
+			on:click={() => changePage(String(link_first))}
 		>
-			{page}
+			First
 		</button>
+	{/if}
+
+	{#each meta_links as link}
+		{#if link.url}
+			<button
+				class="inline-flex h-[40px] min-w-[40px] items-center justify-center border border-gray-100 p-2 text-slate-400 hover:border-sky-500 hover:bg-sky-500 hover:text-white dark:border-gray-800 dark:bg-slate-900 dark:hover:border-sky-500 dark:hover:bg-sky-500"
+				class:text-white={link.active}
+				class:bg-sky-500={link.active}
+				on:click={() => changePage(String(link.url))}
+			>
+				{@html link.label}
+			</button>
+		{:else}
+			<span class="px-4 py-2 text-gray-500">...</span>
+		{/if}
 	{/each}
+
+	{#if link_last}
+		<button
+			class="inline-flex h-[40px] min-w-[40px] items-center justify-center rounded-e-lg border border-gray-100 p-2 text-slate-400 hover:border-sky-500 hover:bg-sky-500 hover:text-white dark:border-gray-800 dark:bg-slate-900 dark:hover:border-sky-500 dark:hover:bg-sky-500"
+			on:click={() => changePage(String(link_last))}
+		>
+			Last
+		</button>
+	{/if}
 </div>
-<button
-	on:click={() => changePage(currentPage + 1)}
-	disabled={currentPage === totalPages}
-	class="cursor-pointer rounded-lg bg-sky-600 px-4 py-1 text-sm text-white hover:bg-sky-700 disabled:cursor-not-allowed"
->
-	Next
-</button>

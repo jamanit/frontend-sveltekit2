@@ -5,6 +5,48 @@
 	import { showToast } from '$lib/utils/toast';
 
 	const baseURL = import.meta.env.VITE_BASE_URL;
+	const apiBaseURL = import.meta.env.VITE_API_BASE_URL;
+
+	// type Category = {
+	// 	name: string;
+	// };
+
+	type Post = {
+		id: number;
+		judul_berita: string;
+		content_body: string;
+		tanggal: string;
+		images: string;
+		images_caption: string;
+		jumlah_view: number;
+		status: string;
+		category_id: number;
+		// category: Category;
+	};
+
+	let posts: Post[] = [];
+	let message = '';
+
+	async function getPosts() {
+		try {
+			const res = await fetch(apiBaseURL + `/api/posts`, {
+				method: 'GET'
+			});
+			if (!res.ok) {
+				throw new Error(`Failed to fetch: ${res.status}`);
+			}
+			const result = await res.json();
+			posts = result.data;
+			console.log(posts);
+		} catch (err) {
+			message = 'Error fetching posts.';
+			console.error(err);
+		}
+	}
+
+	onMount(() => {
+		getPosts();
+	});
 </script>
 
 <section>
@@ -133,205 +175,60 @@
 				</p>
 			</div>
 
-			<div class="grid grid-cols-1 gap-[30px] md:grid-cols-2 lg:grid-cols-3">
-				<div
-					class="group relative overflow-hidden rounded-md shadow transition duration-500 hover:shadow-md dark:shadow-gray-800"
-				>
-					<img src={`${baseURL}/assets/hoxia-v1/images/blog/1.jpg`} alt="" />
-
-					<div class="p-6">
-						<span
-							class="ms-1 h-5 rounded-full bg-sky-500/5 px-2.5 py-0.5 text-xs font-semibold text-sky-500"
-							>VPS Hosting</span
+			{#if posts.length === 0}
+				<p class="text-center text-gray-500">Loading...</p>
+			{:else}
+				<div class="grid grid-cols-1 gap-[30px] md:grid-cols-2 lg:grid-cols-3">
+					{#each posts as post}
+						<div
+							class="group relative overflow-hidden rounded-md shadow transition duration-500 hover:shadow-md dark:shadow-gray-800"
 						>
+							<img
+								src={post.images
+									? apiBaseURL + '/storage/' + post.images
+									: '/assets/hoxia-v1/images/blog/1.jpg'}
+								alt=""
+							/>
 
-						<h5 class="mt-3">
-							<a
-								href="blog-detail.html"
-								class="title text-lg font-medium duration-500 hover:text-sky-500"
-								>Quickly formulate backend</a
-							>
-						</h5>
+							<div class="p-6">
+								<span
+									class="ms-1 h-5 rounded-full bg-sky-500/5 px-2.5 py-0.5 text-xs font-semibold text-sky-500"
+									>{post.category_id}</span
+								>
 
-						<p class="mt-3 text-slate-400">
-							The phrasal sequence of the is now so that many campaign and benefit
-						</p>
+								<h5 class="mt-3">
+									<a
+										href={`/posts/${post.id}`}
+										class="title text-lg font-medium duration-500 hover:text-sky-500"
+										>{post.judul_berita}</a
+									>
+								</h5>
+								<p class="text-xs text-slate-400">{new Date(post.tanggal).toLocaleDateString()}</p>
 
-						<div class="mt-4">
-							<a
-								href="blog-detail.html"
-								class="relative inline-block border-none text-center align-middle text-base tracking-wide text-sky-500 duration-500 ease-in-out after:absolute after:start-0 after:end-0 after:bottom-0 after:h-px after:w-0 after:bg-sky-500 after:transition-all after:duration-500 after:content-[''] hover:text-sky-500 hover:after:end-auto hover:after:w-full"
-								>Read More <i class="uil uil-arrow-right"></i></a
-							>
+								<div class="mt-3 line-clamp-3 text-slate-400">
+									{post.content_body}
+								</div>
+
+								<div class="mt-4">
+									<a
+										href={`/posts/${post.id}`}
+										class="relative inline-block border-none text-center align-middle text-base tracking-wide text-sky-500 duration-500 ease-in-out after:absolute after:start-0 after:end-0 after:bottom-0 after:h-px after:w-0 after:bg-sky-500 after:transition-all after:duration-500 after:content-[''] hover:text-sky-500 hover:after:end-auto hover:after:w-full"
+										>Read More <i class="uil uil-arrow-right"></i></a
+									>
+								</div>
+							</div>
 						</div>
-					</div>
+					{/each}
 				</div>
 
-				<div
-					class="group relative overflow-hidden rounded-md shadow transition duration-500 hover:shadow-md dark:shadow-gray-800"
-				>
-					<img src={`${baseURL}/assets/hoxia-v1/images/blog/2.jpg`} alt="" />
-
-					<div class="p-6">
-						<span
-							class="ms-1 h-5 rounded-full bg-sky-500/5 px-2.5 py-0.5 text-xs font-semibold text-sky-500"
-							>VPS Hosting</span
-						>
-
-						<h5 class="mt-3">
-							<a
-								href="blog-detail.html"
-								class="title text-lg font-medium duration-500 hover:text-sky-500"
-								>Progressively visualize enabled</a
-							>
-						</h5>
-
-						<p class="mt-3 text-slate-400">
-							The phrasal sequence of the is now so that many campaign and benefit
-						</p>
-
-						<div class="mt-4">
-							<a
-								href="blog-detail.html"
-								class="relative inline-block border-none text-center align-middle text-base tracking-wide text-sky-500 duration-500 ease-in-out after:absolute after:start-0 after:end-0 after:bottom-0 after:h-px after:w-0 after:bg-sky-500 after:transition-all after:duration-500 after:content-[''] hover:text-sky-500 hover:after:end-auto hover:after:w-full"
-								>Read More <i class="uil uil-arrow-right"></i></a
-							>
-						</div>
-					</div>
+				<div class="mt-6 flex items-center justify-center">
+					<a
+						href="/posts"
+						class="rounded-lg bg-sky-600 px-4 py-2 text-base text-white hover:bg-sky-700"
+						>View all posts</a
+					>
 				</div>
-
-				<div
-					class="group relative overflow-hidden rounded-md shadow transition duration-500 hover:shadow-md dark:shadow-gray-800"
-				>
-					<img src={`${baseURL}/assets/hoxia-v1/images/blog/3.jpg`} alt="" />
-
-					<div class="p-6">
-						<span
-							class="ms-1 h-5 rounded-full bg-sky-500/5 px-2.5 py-0.5 text-xs font-semibold text-sky-500"
-							>VPS Hosting</span
-						>
-
-						<h5 class="mt-3">
-							<a
-								href="blog-detail.html"
-								class="title text-lg font-medium duration-500 hover:text-sky-500"
-								>Credibly implement maximizing</a
-							>
-						</h5>
-
-						<p class="mt-3 text-slate-400">
-							The phrasal sequence of the is now so that many campaign and benefit
-						</p>
-
-						<div class="mt-4">
-							<a
-								href="blog-detail.html"
-								class="relative inline-block border-none text-center align-middle text-base tracking-wide text-sky-500 duration-500 ease-in-out after:absolute after:start-0 after:end-0 after:bottom-0 after:h-px after:w-0 after:bg-sky-500 after:transition-all after:duration-500 after:content-[''] hover:text-sky-500 hover:after:end-auto hover:after:w-full"
-								>Read More <i class="uil uil-arrow-right"></i></a
-							>
-						</div>
-					</div>
-				</div>
-
-				<div
-					class="group relative overflow-hidden rounded-md shadow transition duration-500 hover:shadow-md dark:shadow-gray-800"
-				>
-					<img src={`${baseURL}/assets/hoxia-v1/images/blog/4.jpg`} alt="" />
-
-					<div class="p-6">
-						<span
-							class="ms-1 h-5 rounded-full bg-sky-500/5 px-2.5 py-0.5 text-xs font-semibold text-sky-500"
-							>VPS Hosting</span
-						>
-
-						<h5 class="mt-3">
-							<a
-								href="blog-detail.html"
-								class="title text-lg font-medium duration-500 hover:text-sky-500"
-								>Quickly formulate backend</a
-							>
-						</h5>
-
-						<p class="mt-3 text-slate-400">
-							The phrasal sequence of the is now so that many campaign and benefit
-						</p>
-
-						<div class="mt-4">
-							<a
-								href="blog-detail.html"
-								class="relative inline-block border-none text-center align-middle text-base tracking-wide text-sky-500 duration-500 ease-in-out after:absolute after:start-0 after:end-0 after:bottom-0 after:h-px after:w-0 after:bg-sky-500 after:transition-all after:duration-500 after:content-[''] hover:text-sky-500 hover:after:end-auto hover:after:w-full"
-								>Read More <i class="uil uil-arrow-right"></i></a
-							>
-						</div>
-					</div>
-				</div>
-
-				<div
-					class="group relative overflow-hidden rounded-md shadow transition duration-500 hover:shadow-md dark:shadow-gray-800"
-				>
-					<img src={`${baseURL}/assets/hoxia-v1/images/blog/5.jpg`} alt="" />
-
-					<div class="p-6">
-						<span
-							class="ms-1 h-5 rounded-full bg-sky-500/5 px-2.5 py-0.5 text-xs font-semibold text-sky-500"
-							>VPS Hosting</span
-						>
-
-						<h5 class="mt-3">
-							<a
-								href="blog-detail.html"
-								class="title text-lg font-medium duration-500 hover:text-sky-500"
-								>Progressively visualize enabled</a
-							>
-						</h5>
-
-						<p class="mt-3 text-slate-400">
-							The phrasal sequence of the is now so that many campaign and benefit
-						</p>
-
-						<div class="mt-4">
-							<a
-								href="blog-detail.html"
-								class="relative inline-block border-none text-center align-middle text-base tracking-wide text-sky-500 duration-500 ease-in-out after:absolute after:start-0 after:end-0 after:bottom-0 after:h-px after:w-0 after:bg-sky-500 after:transition-all after:duration-500 after:content-[''] hover:text-sky-500 hover:after:end-auto hover:after:w-full"
-								>Read More <i class="uil uil-arrow-right"></i></a
-							>
-						</div>
-					</div>
-				</div>
-
-				<div
-					class="group relative overflow-hidden rounded-md shadow transition duration-500 hover:shadow-md dark:shadow-gray-800"
-				>
-					<img src={`${baseURL}/assets/hoxia-v1/images/blog/6.jpg`} alt="" />
-
-					<div class="p-6">
-						<span
-							class="ms-1 h-5 rounded-full bg-sky-500/5 px-2.5 py-0.5 text-xs font-semibold text-sky-500"
-							>VPS Hosting</span
-						>
-
-						<h5 class="mt-3">
-							<a
-								href="blog-detail.html"
-								class="title text-lg font-medium duration-500 hover:text-sky-500"
-								>Credibly implement maximizing</a
-							>
-						</h5>
-
-						<p class="mt-3 text-slate-400">
-							The phrasal sequence of the is now so that many campaign and benefit
-						</p>
-
-						<div class="mt-4">
-							<a
-								href="blog-detail.html"
-								class="relative inline-block border-none text-center align-middle text-base tracking-wide text-sky-500 duration-500 ease-in-out after:absolute after:start-0 after:end-0 after:bottom-0 after:h-px after:w-0 after:bg-sky-500 after:transition-all after:duration-500 after:content-[''] hover:text-sky-500 hover:after:end-auto hover:after:w-full"
-								>Read More <i class="uil uil-arrow-right"></i></a
-							>
-						</div>
-					</div>
-				</div>
-			</div>
+			{/if}
 		</div>
 
 		<div class="relative container mt-16 md:mt-24">
