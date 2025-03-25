@@ -5,6 +5,12 @@
 	import { showToast } from '$lib/utils/toast';
 	import Pagination from '$lib/components/Pagination.svelte';
 
+	let breadcrumbTitle = 'Latest Post';
+	let breadcrumbItems = [
+		{ name: 'Home', url: '/' },
+		{ name: 'Posts', url: '', isActive: true }
+	];
+
 	const baseURL = import.meta.env.VITE_BASE_URL;
 	const apiBaseURL = import.meta.env.VITE_API_BASE_URL;
 
@@ -29,14 +35,14 @@
 	let postUrl = `${apiBaseURL}/api/posts`;
 	let posts: Post[] = [];
 	let meta_links: MetaLink[] = [];
+	let link_first: string | null = '';
+	let link_last: string | null = '';
+	let message = '';
 	// let meta_total: number | null = null;
 	// let meta_current_page: number | null = null;
 	// let meta_per_page: number | null = null;
 	// let meta_last_page: number | null = null;
 	// let meta_from: number | null = null;
-	let link_first: string | null = '';
-	let link_last: string | null = '';
-	let message = '';
 
 	async function getPosts(postUrl: String) {
 		try {
@@ -51,13 +57,13 @@
 			const result = await response.json();
 			posts = result.data;
 			meta_links = result.meta.links;
+			link_first = result.links.first;
+			link_last = result.links.last;
 			// meta_total = result.meta.total;
 			// meta_current_page = result.meta.current_page;
 			// meta_per_page = result.meta.per_page;
 			// meta_last_page = result.meta.last_page;
 			// meta_from = result.meta.from;
-			link_first = result.links.first;
-			link_last = result.links.last;
 		} catch (err) {
 			message = 'Error fetching posts.';
 			console.error(err);
@@ -76,48 +82,7 @@
 </script>
 
 <section>
-	<nav class="bg-gray-500 py-[37px]"></nav>
-	<section
-		class="relative table w-full bg-[url({`${baseURL}/assets/hoxia-v1/images/bg/bg5.png`})] bg-cover bg-center py-36 md:py-40"
-	>
-		<div class="absolute inset-0 bg-sky-500/5"></div>
-		<div class="relative container">
-			<div class="mt-12 grid grid-cols-1 text-center">
-				<h3 class="text-3xl leading-snug font-medium md:text-4xl md:leading-snug">Latest Post</h3>
-			</div>
-		</div>
-
-		<div class="absolute start-0 end-0 bottom-5 z-10 mx-3 text-center">
-			<ul class="mb-0 inline-block tracking-[0.5px]">
-				<li
-					class="inline-block text-[15px] font-medium duration-500 ease-in-out hover:text-sky-500"
-				>
-					<a href="/" data-sveltekit-prefetch>Home</a>
-				</li>
-				<li class="inline-block text-[15px] ltr:rotate-0 rtl:rotate-180">
-					<i class="mdi mdi-chevron-right"></i>
-				</li>
-				<li class="inline-block text-[15px] font-medium text-sky-500 duration-500 ease-in-out">
-					Posts
-				</li>
-			</ul>
-		</div>
-	</section>
-
-	<div class="relative">
-		<div
-			class="shape absolute start-0 end-0 -bottom-[2px] z-1 overflow-hidden text-white sm:-bottom-px dark:text-slate-900"
-		>
-			<svg
-				class="h-auto w-full"
-				viewBox="0 0 2880 48"
-				fill="none"
-				xmlns="http://www.w3.org/2000/svg"
-			>
-				<path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor"></path>
-			</svg>
-		</div>
-	</div>
+	<Breadcrumb {breadcrumbTitle} {breadcrumbItems} />
 
 	<section class="relative py-16 md:py-24">
 		<div class="relative container">

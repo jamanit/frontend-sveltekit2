@@ -6,7 +6,7 @@
 <nav id="topnav" class="defaultscroll is-sticky">
 	<div class="relative container flex">
 		<!-- Logo container-->
-		<a class="logo mr-auto" href="index.html">
+		<a class="logo mr-auto" href="/">
 			<span class="inline-block dark:hidden">
 				<img src="{baseURL}/assets/hoxia-v1/images/logo-dark.png" class="l-dark h-7" alt="" />
 				<img src="{baseURL}/assets/hoxia-v1/images/logo-light.png" class="l-light h-7" alt="" />
