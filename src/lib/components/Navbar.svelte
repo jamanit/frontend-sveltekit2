@@ -1,6 +1,16 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
+
 	const appName = import.meta.env.VITE_APP_NAME;
 	const baseURL = import.meta.env.VITE_BASE_URL;
+	let searchParam: string | undefined = undefined;
+
+	onMount(() => {
+		page.subscribe(($page) => {
+			searchParam = $page.url.searchParams.get('search') || undefined;
+		});
+	});
 </script>
 
 <nav id="topnav" class="defaultscroll is-sticky">
@@ -61,14 +71,19 @@
 					on:click={(event) => event.stopPropagation()}
 				>
 					<div class="relative">
-						<i class="uil uil-search absolute end-3 top-[3px] text-lg"></i>
-						<input
-							type="text"
-							class="form-input h-9 w-36 border-none bg-white pe-10 focus:ring-0 sm:w-44 dark:bg-slate-900"
-							name="s"
-							id="navSearch"
-							placeholder="Search..."
-						/>
+						<form action="/posts" method="GET">
+							<input
+								type="text"
+								class="form-input h-9 w-36 border-none bg-white pe-10 focus:ring-0 sm:w-44 dark:bg-slate-900"
+								name="search"
+								id="navSearch"
+								placeholder="Search..."
+								value={searchParam ? searchParam : ''}
+							/>
+							<button type="submit">
+								<i class="uil uil-search absolute end-3 top-[3px] text-lg"></i>
+							</button>
+						</form>
 					</div>
 				</div>
 			</li>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 	import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { showToast } from '$lib/utils/toast';
@@ -33,6 +34,7 @@
 	}
 
 	let postUrl = `${apiBaseURL}/api/posts`;
+	let searchParam: string | undefined = undefined;
 	let posts: Post[] = [];
 	let meta_links: MetaLink[] = [];
 	let link_first: string | null = '';
@@ -70,23 +72,59 @@
 		}
 	}
 
+	function buildUrl(base: string, search?: string) {
+		return search ? `${base}?search=${search}` : base;
+	}
+
 	onMount(() => {
-		getPosts(postUrl);
+		page.subscribe(($page) => {
+			searchParam = $page.url.searchParams.get('search') || undefined;
+			const fullUrl = buildUrl(postUrl, searchParam);
+			getPosts(fullUrl);
+		});
 	});
 
-	function changePage(postUrl: String) {
-		if (postUrl) {
-			getPosts(postUrl);
+	// Handle pagination and maintain search parameter
+	function changePage(newUrl: string) {
+		if (newUrl) {
+			const paginatedUrl = buildUrl(newUrl, searchParam);
+			getPosts(paginatedUrl);
 		}
+	}
+
+	function highlightText(text: string, searchTerm: string | undefined) {
+		if (!searchTerm || searchTerm.trim() === '') {
+			return text;
+		}
+		const regex = new RegExp(`(${searchTerm})`, 'gi');
+		return text.replace(regex, '<mark class="bg-yellow-300">$1</mark>');
 	}
 </script>
 
-<section>
+<div>
 	<Breadcrumb {breadcrumbTitle} {breadcrumbItems} />
 
 	<section class="relative py-16 md:py-24">
+		<div class="mb-8">
+			<form class="relative mx-auto max-w-xl" action="/posts" method="GET">
+				<input
+					type="text"
+					id="search"
+					name="search"
+					class="h-12 w-full rounded-lg bg-white ps-6 pe-40 pt-4 pb-4 text-black shadow outline-none"
+					placeholder="Search"
+					value={searchParam}
+				/>
+				<button
+					type="submit"
+					class="focus:ring-opacity-25 absolute end-[0] top-[0] inline-block h-12 rounded-e-lg border border-sky-500 bg-sky-500 px-8 py-2.5 align-middle text-[16px] font-medium tracking-wide text-white transition-all duration-500 hover:border-sky-600 hover:bg-sky-600 focus:ring-[3px] focus:ring-sky-500 focus:outline-none"
+					><i class="uil uil-search"></i> Search</button
+				>
+			</form>
+		</div>
+
 		<div class="relative container">
-			{#if posts.length < 0}
+			{#if posts.length <= 0}
 				<p class="text-center text-gray-500">{message || 'No posts available.'}</p>
 			{:else}
 				<div class="grid grid-cols-1 gap-[30px] md:grid-cols-2 lg:grid-cols-3">
@@ -109,8 +147,9 @@
 									<a
 										href={`/posts/${post.id}`}
 										class="title text-lg font-medium duration-500 hover:text-sky-500"
-										>{post.judul_berita}</a
 									>
+										{@html highlightText(post.judul_berita, searchParam)}
+									</a>
 								</h5>
 								<p class="text-xs text-slate-400">{new Date(post.tanggal).toLocaleDateString()}</p>
 
@@ -134,4 +173,4 @@
 			{/if}
 		</div>
 	</section>
-</section>
+</div>

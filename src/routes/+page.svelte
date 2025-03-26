@@ -29,13 +29,13 @@
 
 	async function getPosts() {
 		try {
-			const res = await fetch(apiBaseURL + `/api/posts`, {
+			const response = await fetch(apiBaseURL + `/api/posts`, {
 				method: 'GET'
 			});
-			if (!res.ok) {
-				throw new Error(`Failed to fetch: ${res.status}`);
+			if (!response.ok) {
+				throw new Error(`Failed to fetch: ${response.status}`);
 			}
-			const result = await res.json();
+			const result = await response.json();
 			posts = result.data;
 			console.log(posts);
 		} catch (err) {
@@ -49,7 +49,7 @@
 	});
 </script>
 
-<section>
+<div>
 	<section
 		class="relative bg-[url({`${baseURL}/assets/hoxia-v1/images/bg/bg1.jpg`})] bg-cover bg-center py-36 lg:py-64"
 	>
@@ -70,13 +70,13 @@
 				</p>
 
 				<div class="mt-6">
-					<form class="relative mx-auto max-w-xl">
+					<form class="relative mx-auto max-w-xl" action="/posts" method="GET">
 						<input
 							type="text"
-							id="searchDomain"
-							name="text"
+							id="search"
+							name="search"
 							class="h-12 w-full rounded-lg bg-white ps-6 pe-40 pt-4 pb-4 text-black shadow outline-none"
-							placeholder="Search Your Domain"
+							placeholder="Search"
 						/>
 						<button
 							type="submit"
@@ -231,4 +231,4 @@
 			{/if}
 		</div>
 	</section>
-</section>
+</div>
